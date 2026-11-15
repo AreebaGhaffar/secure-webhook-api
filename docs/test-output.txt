@@ -1,0 +1,52 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.9, pytest-9.2.0, pluggy-1.7.0 -- D:\upwork\secure-webhook-api\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: D:\upwork\secure-webhook-api
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.16.0
+collecting ... collected 35 items
+
+tests/test_concurrency.py::test_concurrent_duplicate_requests_process_only_once PASSED [  2%]
+tests/test_config.py::test_all_settings_missing_gives_clear_error PASSED [  5%]
+tests/test_config.py::test_each_missing_setting_is_named[DATABASE_URL] PASSED [  8%]
+tests/test_config.py::test_each_missing_setting_is_named[WEBHOOK_SECRET] PASSED [ 11%]
+tests/test_config.py::test_app_refuses_to_start_without_configuration PASSED [ 14%]
+tests/test_reliability.py::test_database_failure_rolls_back_and_is_not_reported_as_success PASSED [ 17%]
+tests/test_schemas.py::test_valid_event_is_accepted PASSED               [ 20%]
+tests/test_schemas.py::test_missing_required_field_is_rejected[event_id] PASSED [ 22%]
+tests/test_schemas.py::test_missing_required_field_is_rejected[event_type] PASSED [ 25%]
+tests/test_schemas.py::test_missing_required_field_is_rejected[created_at] PASSED [ 28%]
+tests/test_schemas.py::test_missing_required_field_is_rejected[data] PASSED [ 31%]
+tests/test_schemas.py::test_data_must_be_a_json_object[bad_data0] PASSED [ 34%]
+tests/test_schemas.py::test_data_must_be_a_json_object[text] PASSED      [ 37%]
+tests/test_schemas.py::test_data_must_be_a_json_object[5] PASSED         [ 40%]
+tests/test_schemas.py::test_empty_event_id_is_rejected PASSED            [ 42%]
+tests/test_schemas.py::test_event_id_too_long_is_rejected PASSED         [ 45%]
+tests/test_schemas.py::test_event_type_too_long_is_rejected PASSED       [ 48%]
+tests/test_schemas.py::test_event_id_must_be_text PASSED                 [ 51%]
+tests/test_schemas.py::test_invalid_created_at_is_rejected PASSED        [ 54%]
+tests/test_security.py::test_valid_signature_is_accepted PASSED          [ 57%]
+tests/test_security.py::test_wrong_secret_is_rejected PASSED             [ 60%]
+tests/test_security.py::test_tampered_body_is_rejected PASSED            [ 62%]
+tests/test_security.py::test_reformatted_json_is_rejected PASSED         [ 65%]
+tests/test_security.py::test_missing_signature_is_rejected PASSED        [ 68%]
+tests/test_security.py::test_header_without_prefix_is_rejected PASSED    [ 71%]
+tests/test_security.py::test_non_ascii_header_does_not_crash PASSED      [ 74%]
+tests/test_webhooks.py::test_valid_signature_creates_one_event PASSED    [ 77%]
+tests/test_webhooks.py::test_invalid_signature_is_rejected PASSED        [ 80%]
+tests/test_webhooks.py::test_missing_signature_is_rejected PASSED        [ 82%]
+tests/test_webhooks.py::test_signature_is_checked_before_payload_validation PASSED [ 85%]
+tests/test_webhooks.py::test_duplicate_event_is_not_processed_again PASSED [ 88%]
+tests/test_webhooks.py::test_different_events_are_stored_separately PASSED [ 91%]
+tests/test_webhooks.py::test_malformed_payload_returns_422[not-json] PASSED [ 94%]
+tests/test_webhooks.py::test_malformed_payload_returns_422[missing-fields] PASSED [ 97%]
+tests/test_webhooks.py::test_malformed_payload_returns_422[data-is-a-list] PASSED [100%]
+
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  D:\upwork\secure-webhook-api\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 35 passed, 1 warning in 2.89s ========================

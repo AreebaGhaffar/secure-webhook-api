@@ -1,0 +1,20 @@
+﻿Demo event id: evt_demo_11163c8b
+
+1. Valid signature, first delivery (expect 200 processed)
+  -> 200 {"status":"processed","event_id":"evt_demo_11163c8b"}
+
+2. Same event again (expect 200 duplicate)
+  -> 200 {"status":"duplicate","event_id":"evt_demo_11163c8b"}
+
+3. Wrong signature (expect 401)
+  -> 401 {"detail":"Invalid or missing signature"}
+
+4. Missing signature (expect 401)
+  -> 401 {"detail":"Invalid or missing signature"}
+
+5. Signed, but required fields missing (expect 422)
+  -> 422 {"detail":[{"type":"missing","loc":["event_type"],"msg":"Field required"},{"type":"missing","loc":["created_at"],"msg":"Field required"},{"type":"missing","loc":["data"],"msg":"Field required"}]}
+
+6. Signed, but not JSON (expect 422)
+  -> 422 {"detail":[{"type":"json_invalid","loc":[],"msg":"Invalid JSON: expected ident at line 1 column 2"}]}
+
