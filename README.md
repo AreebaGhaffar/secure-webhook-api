@@ -191,3 +191,29 @@ rollback, and missing configuration at startup.
   queue or background worker.
 - Simulated payment events only: no real payments, refunds, or subscriptions.
 - No frontend, cloud deployment, or compliance certification.
+
+## Walkthrough: signature and duplicate behavior
+
+Run `python -m scripts.demo` against the running service. Expected results:
+
+| # | Request | Result |
+|---|---|---|
+| 1 | Valid signature, first delivery | 200 `processed` |
+| 2 | Same event again | 200 `duplicate` (not processed again) |
+| 3 | Wrong signature | 401 |
+| 4 | Missing signature | 401 |
+| 5 | Signed, required fields missing | 422 |
+| 6 | Signed, not JSON | 422 |
+
+To confirm the duplicate was stored only once:
+
+```
+docker compose exec db psql -U <POSTGRES_USER> -d <POSTGRES_DB> -P pager=off -c "SELECT event_id, status, processed_at FROM webhook_events;"
+```
+
+The event appears once, with status `processed`, even though it was sent twice.
+Concurrent duplicates are covered by `tests/test_concurrency.py` (8 simultaneous
+requests: 1 processed, 7 duplicates, 1 row).
+
+Recorded output from a real run is saved in `docs/test-output.txt` (35 passed)
+and `docs/demo-output.txt`.
